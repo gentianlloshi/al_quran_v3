@@ -1,4 +1,5 @@
 import "package:adhan_dart/adhan_dart.dart";
+import "package:al_quran_v3/src/compat/adhan_compat.dart";
 import "package:al_quran_v3/l10n/app_localizations.dart";
 import "package:al_quran_v3/src/screen/location_handler/cubit/location_data_qibla_data_cubit.dart";
 import "package:al_quran_v3/src/screen/location_handler/location_aquire.dart";
@@ -237,11 +238,21 @@ class _TimeListOfPrayersState extends State<TimeListOfPrayers> {
                   ),
                   padding: const EdgeInsets.symmetric(horizontal: 10),
                   child: DropdownButtonHideUnderline(
-                    child: DropdownButtonFormField<CalculationMethodEnum>(
-                      padding: EdgeInsets.zero,
-                      initialValue:
-                          locationState.calculationMethod?.method ??
-                          CalculationMethodEnum.muslimWorldLeague,
+                      child: DropdownButtonFormField<CalculationMethodEnum>(
+                        padding: EdgeInsets.zero,
+                        initialValue: (() {
+                          final cp = locationState.calculationMethod;
+                          if (cp == null) return CalculationMethodEnum.muslimWorldLeague;
+                          try {
+                            final methodName = cp.method.name;
+                            return CalculationMethodEnum.values.firstWhere(
+                              (e) => e.name == methodName,
+                              orElse: () => CalculationMethodEnum.muslimWorldLeague,
+                            );
+                          } catch (_) {
+                            return CalculationMethodEnum.muslimWorldLeague;
+                          }
+                        })(),
                       decoration: const InputDecoration(
                         border: InputBorder.none,
                         contentPadding: EdgeInsets.zero,
@@ -253,10 +264,8 @@ class _TimeListOfPrayersState extends State<TimeListOfPrayers> {
                             (e) => DropdownMenuItem(
                               value: e,
                               child: Text(
-                                CalculationMethodParameters.fromEnum(
-                                      e,
-                                    ).fullName ??
-                                    e.name,
+                                // Use the underlying CalculationParameters.method name as display
+                                calcParamsFromEnum(e).method.name ?? e.name,
                               ),
                             ),
                           )
@@ -266,7 +275,7 @@ class _TimeListOfPrayersState extends State<TimeListOfPrayers> {
                           context
                               .read<LocationQiblaPrayerDataCubit>()
                               .saveCalculationMethod(
-                                CalculationMethodParameters.fromEnum(value),
+                                calcParamsFromEnum(value),
                               );
                         }
                       },
@@ -280,7 +289,7 @@ class _TimeListOfPrayersState extends State<TimeListOfPrayers> {
                   width: mediaQueryData.size.width,
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(8),
-                    color: prayerTimes.isInsideForbiddenTime(now) == null
+                    color: prayerTimes.isInsideForbiddenTimeSimple(now) == null
                         ? themeState.primaryShade100
                         : Colors.red.withValues(alpha: 0.5),
                   ),

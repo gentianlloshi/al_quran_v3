@@ -1,4 +1,5 @@
 import "package:adhan_dart/adhan_dart.dart";
+import "package:al_quran_v3/src/compat/adhan_compat.dart";
 import "package:al_quran_v3/src/screen/location_handler/model/lat_lon.dart";
 import "package:al_quran_v3/src/screen/location_handler/model/location_data_qibla_data_state.dart";
 import "package:flutter_bloc/flutter_bloc.dart";
@@ -99,13 +100,13 @@ class LocationQiblaPrayerDataCubit extends Cubit<LocationQiblaPrayerDataState> {
         "selected_calculation_method",
       );
       if (calculationMethodJason != null) {
-        data.calculationMethod = CalculationMethodParameters.fromEnum(
+        data.calculationMethod = calcParamsFromEnum(
           CalculationMethodEnum.values.firstWhere(
             (element) => element.name == calculationMethodJason,
           ),
         );
       } else {
-        data.calculationMethod = CalculationMethodParameters.fromEnum(
+        data.calculationMethod = calcParamsFromEnum(
           CalculationMethodEnum.muslimWorldLeague,
         );
       }

@@ -423,33 +423,15 @@ class _PrayerSettingsState extends State<PrayerSettings> {
                   strokeWidth: 1.2,
                 );
                 break;
-              case Prayer.dhuha:
+              default:
+                DateTime t;
+                try {
+                  t = widget.prayerTimes.timeForPrayer(currentPrayerType) ?? DateTime.now();
+                } catch (_) {
+                  t = DateTime.now();
+                }
                 prayerIcon = ClockIcon(
-                  time: TimeOfDay.fromDateTime(widget.prayerTimes.dhuha),
-                  color: themeState.primary,
-                  size: 20,
-                  strokeWidth: 1.2,
-                );
-                break;
-              case Prayer.noon:
-                prayerIcon = ClockIcon(
-                  time: TimeOfDay.fromDateTime(widget.prayerTimes.noon),
-                  color: themeState.primary,
-                  size: 20,
-                  strokeWidth: 1.2,
-                );
-                break;
-              case Prayer.sunset:
-                prayerIcon = ClockIcon(
-                  time: TimeOfDay.fromDateTime(widget.prayerTimes.sunset),
-                  color: themeState.primary,
-                  size: 20,
-                  strokeWidth: 1.2,
-                );
-                break;
-              case Prayer.tahajjud:
-                prayerIcon = ClockIcon(
-                  time: TimeOfDay.fromDateTime(widget.prayerTimes.tahajjud),
+                  time: TimeOfDay.fromDateTime(t),
                   color: themeState.primary,
                   size: 20,
                   strokeWidth: 1.2,

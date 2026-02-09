@@ -50,10 +50,15 @@ android {
 
     signingConfigs {
         create("release") {
-            keyAlias = keystoreProperties["keyAlias"] as String
-            keyPassword = keystoreProperties["keyPassword"] as String
-            storeFile = keystoreProperties["storeFile"]?.let { file(it) }
-            storePassword = keystoreProperties["storePassword"] as String
+            val alias: String? = keystoreProperties.getProperty("keyAlias")
+            val kpass: String? = keystoreProperties.getProperty("keyPassword")
+            val sfile: String? = keystoreProperties.getProperty("storeFile")
+            val spass: String? = keystoreProperties.getProperty("storePassword")
+
+            if (alias != null) keyAlias = alias
+            if (kpass != null) keyPassword = kpass
+            if (sfile != null) storeFile = file(sfile)
+            if (spass != null) storePassword = spass
         }
     }
 

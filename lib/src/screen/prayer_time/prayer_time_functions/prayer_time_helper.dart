@@ -12,22 +12,15 @@ class PrayerTimeHelper {
         return localizations.fajr;
       case Prayer.sunrise:
         return localizations.sunrise;
-      case Prayer.dhuha:
-        return localizations.dhuha;
-      case Prayer.noon:
-        return localizations.noon;
+      
       case Prayer.dhuhr:
         return localizations.dhuhr;
       case Prayer.asr:
         return localizations.asr;
-      case Prayer.sunset:
-        return localizations.sunset;
       case Prayer.maghrib:
         return localizations.maghrib;
       case Prayer.isha:
         return localizations.isha;
-      case Prayer.tahajjud:
-        return localizations.tahajjud;
       default:
         return null;
     }

@@ -68,8 +68,7 @@ dependencies:
   google_fonts: ^6.3.2
   web: ^1.1.1
   flutter_native_splash: ^2.4.7
-  adhan_dart:
-    path: adhan_dart
+  adhan_dart: ^1.2.0
   hijri: ^3.0.0
   shimmer: ^3.0.0
   # background_fetch:
